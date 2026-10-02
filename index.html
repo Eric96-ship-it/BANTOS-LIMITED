@@ -3,15 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Bantos Transport — Trips, Expenses &amp; Invoicing</title>
+<title>Bantos Limited — Trips, Expenses &amp; Invoicing</title>
 <meta name="description" content="Trip records, expenses management and monthly invoice generation." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   THEME TOKENS — LIGHT & DARK
-   ============================================================ */
 :root {
   --bg:#f4f6fb; --surface:#fff; --surface-2:#fafbfe; --surface-3:#f0f3f9;
   --border:#e4e8f0; --border-strong:#d4dbe8;
@@ -51,8 +48,6 @@
   --shadow-md:0 10px 28px -8px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.35);
   --shadow-lg:0 28px 56px -16px rgba(0,0,0,.7);
   --tbl-head:#182541; --tbl-row:#16223b; --tbl-line:#1e2d4d;
-  /* Dark mode input tokens — explicit so no field can fall back to
-     a browser-default white background with light text on top. */
   --input-bg: #1b2842;
   --input-bg-focus: #223354;
   --input-text: #f1f5fb;
@@ -61,7 +56,6 @@
   --input-border-hover: #3e5680;
 }
 
-/* RESET */
 *,*::before,*::after { box-sizing:border-box; }
 html,body { height:100%; }
 body {
@@ -84,11 +78,6 @@ svg { width:18px; height:18px; fill:currentColor; display:block; }
 [data-theme="dark"] ::-webkit-scrollbar-thumb { background:#2f4266; background-clip:content-box; }
 ::-webkit-scrollbar-thumb:hover { background:#aab6c9; background-clip:content-box; }
 
-/* ============================================================
-   GLOBAL INPUT STYLING
-   Applied everywhere a user can type, so dark mode never falls
-   back to a browser-default white background with light text.
-   ============================================================ */
 input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]),
 select,
 textarea {
@@ -115,7 +104,6 @@ textarea:focus {
   outline: none;
   box-shadow: 0 0 0 3.5px color-mix(in srgb, var(--accent) 20%, transparent);
 }
-/* Kill Chrome/Safari autofill yellow/white takeover in dark mode */
 [data-theme="dark"] input:-webkit-autofill,
 [data-theme="dark"] input:-webkit-autofill:hover,
 [data-theme="dark"] input:-webkit-autofill:focus,
@@ -126,18 +114,10 @@ textarea:focus {
   caret-color: var(--accent);
   transition: background-color 9999s ease-in-out 0s;
 }
-/* Number input spinners readable in dark mode */
 [data-theme="dark"] input[type="number"]::-webkit-inner-spin-button,
-[data-theme="dark"] input[type="number"]::-webkit-outer-spin-button {
-  filter: invert(.85);
-}
-/* Native date picker indicator readable in dark mode */
-[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(.8);
-  cursor: pointer;
-}
+[data-theme="dark"] input[type="number"]::-webkit-outer-spin-button { filter: invert(.85); }
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.8); cursor: pointer; }
 
-/* APP SHELL */
 .app { display:flex; min-height:100vh; min-height:100dvh; }
 .sidebar {
   width:var(--sidebar-w); flex-shrink:0; position:fixed; inset:0 auto 0 0; z-index:60;
@@ -280,6 +260,7 @@ textarea:focus {
 .stat-card.accent-red::after    { background:linear-gradient(90deg,#f04438,#fb7185); }
 .stat-card.accent-violet::after { background:linear-gradient(90deg,#7c3aed,#a78bfa); }
 .stat-card.accent-teal::after   { background:linear-gradient(90deg,#0ea5a4,#2dd4bf); }
+.stat-card.accent-purple::after { background:linear-gradient(90deg,#a855f7,#c084fc); }
 
 .grid-2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:20px; align-items:start; }
 .grid-2 .card { margin-bottom:0; }
@@ -372,7 +353,11 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   overflow-x:auto; border:1px solid var(--border); border-radius:var(--radius-sm);
   background:var(--surface); -webkit-overflow-scrolling:touch;
 }
-.table { width:100%; border-collapse:separate; border-spacing:0; font-size:.84rem; min-width:640px; }
+.table {
+  width:100%;
+  table-layout: auto;
+  border-collapse:separate; border-spacing:0; font-size:.84rem;
+}
 .table thead th {
   position:sticky; top:0; z-index:2; padding:11px 13px; background:var(--tbl-head);
   border-bottom:1px solid var(--border); font-size:.68rem; font-weight:700;
@@ -380,7 +365,8 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   text-align:left; white-space:nowrap;
 }
 .table tbody td {
-  padding:11px 13px; border-bottom:1px solid var(--tbl-line); color:var(--text-2); vertical-align:middle;
+  padding:11px 13px; border-bottom:1px solid var(--tbl-line); color:var(--text-2);
+  vertical-align:middle; word-break:break-word;
 }
 .table tbody tr:last-child td { border-bottom:0; }
 .table tbody tr { transition:background .15s var(--ease); }
@@ -388,8 +374,16 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 .table .num, .table td.num, .table th.num { text-align:right; font-variant-numeric:tabular-nums; }
 .table td.strong { font-weight:600; color:var(--text); }
 .table td.reg { font-weight:600; color:var(--accent); }
+
+.table th.col-compact, .table td.col-compact { width: 1%; white-space: nowrap; }
+.table th.col-medium, .table td.col-medium { width: 1%; min-width: 90px; white-space: nowrap; }
+.table th.col-grow, .table td.col-grow { width: auto; min-width: 130px; }
+.table th.col-grow-lg, .table td.col-grow-lg { width: auto; min-width: 180px; }
+.table th.col-actions, .table td.col-actions { width: 1%; white-space: nowrap; text-align: right; }
+
 .actions-col { text-align:right; width:1%; white-space:nowrap; }
 .check-col { width:42px; text-align:center; }
+
 .row-actions { display:inline-flex; gap:6px; justify-content:flex-end; }
 .row-actions button {
   padding:6px 11px; font-size:.72rem; font-weight:600; border-radius:7px;
@@ -417,6 +411,112 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 }
 .totals-bar strong { color:var(--accent); font-variant-numeric:tabular-nums; }
 
+.exp-type-toggle {
+  display: inline-flex;
+  padding: 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  gap: 3px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.exp-type-toggle button {
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-2);
+  font-size: .8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  white-space: nowrap;
+}
+.exp-type-toggle button:hover:not(.active) { color: var(--text); }
+.exp-type-toggle button.active {
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: var(--shadow-xs);
+}
+.exp-type-toggle button.active[data-type="independent"] {
+  color: var(--purple);
+}
+.exp-type-toggle button .tgl-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: currentColor; opacity: .55;
+  transition: opacity .18s;
+}
+.exp-type-toggle button.active .tgl-dot { opacity: 1; }
+
+.type-hint {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; margin-bottom: 14px;
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 10px;
+  font-size: .78rem; color: var(--accent-600);
+  line-height: 1.4;
+}
+.type-hint.indep {
+  background: rgba(124,58,237,.1);
+  border-color: rgba(124,58,237,.3);
+  color: var(--purple);
+}
+[data-theme="dark"] .type-hint.indep { color: #c4b5fd; }
+
+.badge.linked {
+  background: rgba(18,183,106,.14);
+  color: var(--green);
+}
+.badge.indep {
+  background: rgba(124,58,237,.14);
+  color: var(--purple);
+}
+[data-theme="dark"] .badge.indep { color: #c4b5fd; }
+.badge.linked::before,
+.badge.indep::before {
+  content: ''; display: inline-block;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor; opacity: .75;
+}
+
+.hidden-field { display: none !important; }
+
+.inv-lines {
+  margin-top: 12px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.inv-line {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: .8rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+}
+.inv-line .label { color: var(--text-2); font-weight: 600; }
+.inv-line .value { color: var(--text); font-weight: 700; }
+.inv-line.vat .label { color: var(--text-2); }
+.inv-line.vat .value { color: var(--amber); }
+.inv-line.total {
+  background: var(--brand-3);
+  border-color: var(--brand-3);
+  color: #fff;
+  padding: 11px 16px;
+  font-size: .92rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+[data-theme="dark"] .inv-line.total { background: #2563eb; border-color: #2563eb; }
+.inv-line.total .label { color: #cbd5e1; font-weight: 700; }
+.inv-line.total .value { color: #fff; font-weight: 800; }
+
 .invoice-preview {
   background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm);
   padding:24px; margin-top:16px; max-width:148mm; margin-left:auto; margin-right:auto;
@@ -432,7 +532,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 .invoice-preview .inv-meta { font-size:.72rem; color:var(--text-2); line-height:1.5; }
 .invoice-preview .inv-right { text-align:right; }
 .invoice-preview .inv-title { font-size:1.15rem; font-weight:800; color:var(--accent); letter-spacing:.04em; }
-.invoice-preview .inv-table { width:100%; border-collapse:collapse; margin-top:10px; font-size:.72rem; }
+.invoice-preview .inv-table { width:100%; border-collapse:collapse; margin-top:10px; font-size:.72rem; table-layout:auto; }
 .invoice-preview .inv-table th, .invoice-preview .inv-table td {
   padding:5px 7px; border:1px solid var(--border); text-align:left;
 }
@@ -441,11 +541,6 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   text-transform:uppercase; letter-spacing:.06em; color:var(--text-3);
 }
 .invoice-preview .inv-table td.num, .invoice-preview .inv-table th.num { text-align:right; }
-.invoice-preview .inv-total {
-  display:flex; justify-content:space-between; margin-top:12px; padding:10px 14px;
-  background:var(--brand-3); color:#fff; border-radius:8px; font-weight:800; font-size:.85rem;
-}
-[data-theme="dark"] .invoice-preview .inv-total { background:#2563eb; }
 
 .invoice-summary {
   display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-top:20px;
@@ -457,13 +552,9 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   color:#8fa3c0; font-weight:600; }
 .sum-item strong { font-size:1.2rem; font-weight:800; color:#fff;
   letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
+.sum-item.vat-item strong { color: #fbbf24; }
 .invoice-summary .btn-accent { margin-left:auto; }
 
-/* ============================================================
-   EXPENSE BUILDER — with dark-mode-safe inputs
-   The dynamically created .item-desc / .item-amount inputs do NOT
-   sit inside a .field wrapper, so we style them explicitly here.
-   ============================================================ */
 .expense-builder {
   margin-top:6px; padding:16px; border:1px solid var(--border);
   border-radius:var(--radius-sm); background:var(--surface-2);
@@ -492,9 +583,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   box-shadow:0 0 0 3.5px color-mix(in srgb, var(--accent) 20%, transparent);
 }
 [data-theme="dark"] .expense-item-row input[type="number"]::-webkit-inner-spin-button,
-[data-theme="dark"] .expense-item-row input[type="number"]::-webkit-outer-spin-button {
-  filter: invert(.85);
-}
+[data-theme="dark"] .expense-item-row input[type="number"]::-webkit-outer-spin-button { filter: invert(.85); }
 .expense-item-row .remove-item {
   width:34px; height:34px; display:grid; place-items:center;
   border:1px solid var(--border); border-radius:8px; background:var(--surface);
@@ -649,6 +738,8 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   .invoice-preview { padding:16px; max-width:100%; aspect-ratio:auto; }
   .modal-actions { flex-direction:column-reverse; }
   .modal-actions .btn { width:100%; }
+  .exp-type-toggle { width: 100%; }
+  .exp-type-toggle button { flex: 1; justify-content: center; padding: 10px 10px; font-size: .74rem; }
 }
 @media (max-width:400px) {
   .stats-grid { grid-template-columns:1fr; }
@@ -751,9 +842,15 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
               <button class="btn btn-ghost btn-sm" data-goto="trips">View all →</button>
             </div>
             <div class="table-wrap">
-              <table class="table">
+              <table class="table" style="min-width:380px">
                 <thead>
-                  <tr><th>Date</th><th>Reg No.</th><th>Driver</th><th>Destination</th><th class="num">Amount</th></tr>
+                  <tr>
+                    <th class="col-compact">Date</th>
+                    <th class="col-compact">Reg No.</th>
+                    <th class="col-medium">Driver</th>
+                    <th class="col-grow">Destination</th>
+                    <th class="col-medium num">Amount</th>
+                  </tr>
                 </thead>
                 <tbody id="dashRecentBody"></tbody>
               </table>
@@ -774,12 +871,15 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
             <span class="muted small">Trips, income and expenses by month.</span>
           </div>
           <div class="table-wrap">
-            <table class="table">
+            <table class="table" style="min-width:480px">
               <thead>
                 <tr>
-                  <th>Month</th><th class="num">Trips</th><th class="num">KM</th>
-                  <th class="num">Trip Amount</th><th class="num">Expenses</th>
-                  <th class="num">Net</th>
+                  <th class="col-medium">Month</th>
+                  <th class="col-compact num">Trips</th>
+                  <th class="col-compact num">KM</th>
+                  <th class="col-medium num">Trip Amount</th>
+                  <th class="col-medium num">Expenses</th>
+                  <th class="col-medium num">Net</th>
                 </tr>
               </thead>
               <tbody id="dashMonthlyBody"></tbody>
@@ -788,7 +888,6 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
         </div>
       </section>
 
-      <!-- ==================== TRIP RECORDS ==================== -->
       <section class="view" id="view-trips">
         <div class="card" id="tripFormCard">
           <div class="card-head">
@@ -836,9 +935,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
         </div>
 
         <div class="card">
-          <div class="card-head">
-            <h2>All Trip Records</h2>
-          </div>
+          <div class="card-head"><h2>All Trip Records</h2></div>
 
           <div class="export-callout">
             <span class="label">Export Trips:</span>
@@ -885,17 +982,17 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
           </div>
 
           <div class="table-wrap">
-            <table class="table" style="min-width:820px">
+            <table class="table" style="min-width:700px">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Date</th>
-                  <th>Reg No.</th>
-                  <th>Driver</th>
-                  <th>Destination / Route</th>
-                  <th class="num">KM</th>
-                  <th class="num">Amount (KSh)</th>
-                  <th class="actions-col">Actions</th>
+                  <th class="col-compact">#</th>
+                  <th class="col-compact">Date</th>
+                  <th class="col-compact">Reg No.</th>
+                  <th class="col-medium">Driver</th>
+                  <th class="col-grow-lg">Destination / Route</th>
+                  <th class="col-compact num">KM</th>
+                  <th class="col-medium num">Amount (KSh)</th>
+                  <th class="col-actions">Actions</th>
                 </tr>
               </thead>
               <tbody id="tripsBody"></tbody>
@@ -906,27 +1003,40 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
         </div>
       </section>
 
-      <!-- ==================== EXPENSES ==================== -->
       <section class="view" id="view-expenses">
         <div class="card" id="expFormCard">
           <div class="card-head">
             <h2 id="expFormTitle">Add Expense Record</h2>
             <button class="btn btn-ghost btn-sm" id="toggleExpForm">Hide form</button>
           </div>
-          <p class="muted small" style="margin-bottom:14px">
-            All expense-related information belongs here. Link to a saved trip to auto-fill the trip details.
-          </p>
+
+          <div class="exp-type-toggle" id="expTypeToggle" role="tablist">
+            <button type="button" data-type="linked" class="active">
+              <span class="tgl-dot"></span> Linked to Trip
+            </button>
+            <button type="button" data-type="independent">
+              <span class="tgl-dot"></span> Independent Vehicle Expense
+            </button>
+          </div>
+
+          <div class="type-hint" id="expTypeHint">
+            <svg viewBox="0 0 24 24" style="width:15px;height:15px;flex-shrink:0"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>Expense will be associated with a trip you select below.</span>
+          </div>
 
           <form id="expForm" autocomplete="off">
             <input type="hidden" id="expId" />
+            <input type="hidden" id="expType" value="linked" />
+
             <div class="form-grid">
-              <div class="field span-2">
-                <label for="expTripPicker">Link to a Trip <span class="opt">(recommended — auto-fills trip details below)</span></label>
+              <div class="field span-2" id="expTripPickerField">
+                <label for="expTripPicker">Link to a Trip <span class="req">*</span></label>
                 <select id="expTripPicker">
-                  <option value="">— Enter manually below —</option>
+                  <option value="">— Pick a trip to link —</option>
                 </select>
-                <small class="hint">Selecting a trip auto-fills date, reg no., driver, destination and KM, and associates the expense record with it.</small>
+                <small class="hint">Auto-fills date, reg no., driver, destination and KM.</small>
               </div>
+
               <div class="field">
                 <label for="expDate">Date <span class="req">*</span></label>
                 <input type="date" id="expDate" required />
@@ -936,11 +1046,11 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
                 <input type="text" id="expReg" placeholder="e.g. KDA 123A" required />
               </div>
               <div class="field">
-                <label for="expDriver">Driver's Name <span class="req">*</span></label>
-                <input type="text" id="expDriver" placeholder="e.g. John Kamau" required />
+                <label for="expDriver">Driver's Name <span class="opt">(optional for independent)</span></label>
+                <input type="text" id="expDriver" placeholder="e.g. John Kamau" />
               </div>
               <div class="field">
-                <label for="expDest">Destination / Route <span class="opt">(auto-filled from linked trip)</span></label>
+                <label for="expDest">Destination / Description <span class="opt">(optional)</span></label>
                 <input type="text" id="expDest" placeholder="e.g. KISUMU - BUSIA" />
               </div>
               <div class="field">
@@ -982,12 +1092,10 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
         </div>
 
         <div class="card">
-          <div class="card-head">
-            <h2>All Expense Records</h2>
-          </div>
+          <div class="card-head"><h2>All Expense Records</h2></div>
 
           <div class="export-callout">
-            <span class="label">Export Expenses (One Trip = One Row):</span>
+            <span class="label">Export Expenses (One Record = One Row):</span>
             <button class="btn btn-primary btn-sm" id="expExportXlsx">📊 Download Expenses — Excel</button>
             <button class="btn btn-purple btn-sm" id="expExportPdf">📄 Download Expenses — A4 PDF</button>
             <button class="btn btn-ghost btn-sm" id="expExportCsv">CSV</button>
@@ -1011,6 +1119,14 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
               <input type="date" id="expTo" />
             </div>
             <div class="field">
+              <label for="expTypeFilter">Type</label>
+              <select id="expTypeFilter">
+                <option value="all">All types</option>
+                <option value="linked">Linked to Trip</option>
+                <option value="independent">Independent Only</option>
+              </select>
+            </div>
+            <div class="field">
               <label for="expSort">Sort by</label>
               <select id="expSort">
                 <option value="date">Date</option>
@@ -1029,19 +1145,20 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
           </div>
 
           <div class="table-wrap">
-            <table class="table" style="min-width:1000px">
+            <table class="table" style="min-width:960px">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Date</th>
-                  <th>Reg No.</th>
-                  <th>Driver</th>
-                  <th>Destination / Route</th>
-                  <th class="num">KM</th>
-                  <th>Fuel</th>
-                  <th>Expense Items</th>
-                  <th class="num">Total (KSh)</th>
-                  <th class="actions-col">Actions</th>
+                  <th class="col-compact">#</th>
+                  <th class="col-compact">Type</th>
+                  <th class="col-compact">Date</th>
+                  <th class="col-compact">Reg No.</th>
+                  <th class="col-medium">Driver</th>
+                  <th class="col-grow">Destination / Description</th>
+                  <th class="col-compact num">KM</th>
+                  <th class="col-medium">Fuel</th>
+                  <th class="col-grow-lg">Expense Items</th>
+                  <th class="col-medium num">Total (KSh)</th>
+                  <th class="col-actions">Actions</th>
                 </tr>
               </thead>
               <tbody id="expsBody"></tbody>
@@ -1052,12 +1169,9 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
         </div>
       </section>
 
-      <!-- ==================== INVOICES ==================== -->
       <section class="view" id="view-invoices">
         <div class="card">
-          <div class="card-head">
-            <h2>Invoice Details</h2>
-          </div>
+          <div class="card-head"><h2>Invoice Details</h2></div>
           <div class="form-grid">
             <div class="field">
               <label for="invNo">Invoice Number</label>
@@ -1094,17 +1208,21 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
             </div>
             <div class="field grow">
               <label>&nbsp;</label>
-              <div class="hint">Only ticked trips appear on the invoice.</div>
+              <div class="hint">VAT of 16% is applied automatically to the selected subtotal.</div>
             </div>
           </div>
 
           <div class="table-wrap">
-            <table class="table">
+            <table class="table" style="min-width:560px">
               <thead>
                 <tr>
                   <th class="check-col"><input type="checkbox" id="invCheckAll" /></th>
-                  <th>Date</th><th>Reg No.</th><th>Driver</th><th>Destination</th>
-                  <th class="num">KM</th><th class="num">Amount (KSh)</th>
+                  <th class="col-compact">Date</th>
+                  <th class="col-compact">Reg No.</th>
+                  <th class="col-medium">Driver</th>
+                  <th class="col-grow">Destination</th>
+                  <th class="col-compact num">KM</th>
+                  <th class="col-medium num">Amount (KSh)</th>
                 </tr>
               </thead>
               <tbody id="invBody"></tbody>
@@ -1114,7 +1232,9 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
           <div class="invoice-summary">
             <div class="sum-item"><span>Trips selected</span><strong id="sumCount">0</strong></div>
             <div class="sum-item"><span>Total kilometres</span><strong id="sumKm">0.00</strong></div>
-            <div class="sum-item"><span>Invoice total</span><strong id="sumTotal">KSh 0.00</strong></div>
+            <div class="sum-item"><span>Subtotal</span><strong id="sumSubtotal">KSh 0.00</strong></div>
+            <div class="sum-item vat-item"><span>VAT (16%)</span><strong id="sumVat">KSh 0.00</strong></div>
+            <div class="sum-item"><span>Grand Total</span><strong id="sumTotal">KSh 0.00</strong></div>
             <button class="btn btn-accent" id="genInvoiceBtn">📄 Download Invoice PDF</button>
           </div>
         </div>
@@ -1122,20 +1242,21 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
         <div class="card">
           <div class="card-head">
             <h2>Invoice Preview</h2>
-            <span class="muted small">Approximate on-screen preview of the invoice PDF.</span>
+            <span class="muted small">Subtotal, VAT (16%) and Grand Total are shown below the items.</span>
           </div>
           <div class="invoice-preview" id="invoicePreview"></div>
         </div>
       </section>
 
-      <!-- ==================== REPORTS ==================== -->
       <section class="view" id="view-reports">
         <div class="card">
           <div class="card-head"><h2>Reports — Excel &amp; PDF</h2></div>
           <p class="muted" style="margin-bottom:16px">
             Trip Records export contains <strong>basic trip information only</strong>
             (Date · Reg No. · Driver · Destination · KM · Amount).
-            Expenses export keeps <strong>one trip = one row</strong> with all expense details.
+            Expenses export keeps <strong>one expense record = one row</strong> with a Type column distinguishing
+            Linked-to-Trip from Independent Vehicle Expenses.
+            All exports automatically size each column to its content.
           </p>
 
           <div class="filters">
@@ -1162,7 +1283,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
           </div>
 
           <div class="export-callout">
-            <span class="label">Expenses (One Trip = One Row):</span>
+            <span class="label">Expenses (One Record = One Row):</span>
             <button class="btn btn-primary btn-sm" id="repXlsxExp">📊 Download Expenses — Excel</button>
             <button class="btn btn-purple btn-sm" id="repPdfExp">📄 Download Expenses — A4 PDF</button>
           </div>
@@ -1173,7 +1294,6 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
         </div>
       </section>
 
-      <!-- ==================== BACKUP & CLEAR ==================== -->
       <section class="view" id="view-backup">
         <div class="grid-2">
           <div class="card">
@@ -1222,7 +1342,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
             <div class="danger-item">
               <div class="danger-info">
                 <strong>Clear Expenses</strong>
-                <span>Remove all saved expense records. Trip records are kept exactly as they are.</span>
+                <span>Remove all saved expense records — both linked and independent. Trip records are kept.</span>
               </div>
               <button class="btn btn-danger" id="clearExpBtn">
                 <svg viewBox="0 0 24 24" style="width:15px;height:15px"><path d="M6 7h12l-1 13H7L6 7zm3-3h6l1 2H8l1-2z"/></svg>
@@ -1255,7 +1375,6 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
         </div>
       </section>
 
-      <!-- ==================== SETTINGS ==================== -->
       <section class="view" id="view-settings">
         <div class="card">
           <div class="card-head"><h2>Company &amp; Branding</h2></div>
@@ -1339,9 +1458,14 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
             <span class="muted small">Used to auto-fill trip amounts.</span>
           </div>
           <div class="table-wrap">
-            <table class="table">
+            <table class="table" style="min-width:420px">
               <thead>
-                <tr><th>Route / Destination</th><th class="num">Rate per Trip (KSh)</th><th class="num">Default KM</th><th class="actions-col">Actions</th></tr>
+                <tr>
+                  <th class="col-grow">Route / Destination</th>
+                  <th class="col-medium num">Rate per Trip (KSh)</th>
+                  <th class="col-medium num">Default KM</th>
+                  <th class="col-actions">Actions</th>
+                </tr>
               </thead>
               <tbody id="routesBody"></tbody>
             </table>
@@ -1394,13 +1518,15 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
 <script>
 /* ============================================================
-   BANTOS TRANSPORT — APPLICATION LOGIC
+   BANTOS LIMITED — APPLICATION LOGIC
    ============================================================ */
 (function () {
   'use strict';
 
   const STORAGE_KEY = 'bantos_transport_v2';
   const THEME_KEY   = 'bantos_theme';
+  const VAT_RATE    = 0.16;
+  const COMPANY_NAME = 'BANTOS LIMITED';
 
   const DEFAULT_ROUTES = [
     { name: 'KISUMU - BUSIA',                       rate: 104693.33, km: 0 },
@@ -1412,7 +1538,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   ];
 
   const DEFAULT_SETTINGS = {
-    company: 'BANTOS TRANSPORT LIMITED',
+    company: COMPANY_NAME,
     address: 'P.O. Box 1234, Mombasa, Kenya',
     phone: '+254 700 000 000',
     email: 'accounts@bantos.co.ke',
@@ -1435,6 +1561,14 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     ]
   };
 
+  // Old company names that should be automatically upgraded on load.
+  const LEGACY_COMPANY_NAMES = [
+    'BANTOS TRANSPORT LIMITED',
+    'BANTOS TRANSPORT',
+    'BANTOS TRANSPORT LTD',
+    'BANTOS LTD'
+  ];
+
   let state = loadState();
   let selectedTripIds = new Set();
 
@@ -1456,12 +1590,13 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       const base = blankState();
       const settings = Object.assign({}, base.settings, parsed.settings || {});
 
-      if (settings.bank && LEGACY_PLACEHOLDERS.bank.includes(settings.bank.trim())) {
-        settings.bank = '';
+      // Auto-upgrade old company names to "BANTOS LIMITED".
+      if (settings.company && LEGACY_COMPANY_NAMES.indexOf(settings.company.trim().toUpperCase()) !== -1) {
+        settings.company = COMPANY_NAME;
       }
-      if (settings.notes && LEGACY_PLACEHOLDERS.notes.includes(settings.notes.trim())) {
-        settings.notes = '';
-      }
+
+      if (settings.bank && LEGACY_PLACEHOLDERS.bank.includes(settings.bank.trim())) settings.bank = '';
+      if (settings.notes && LEGACY_PLACEHOLDERS.notes.includes(settings.notes.trim())) settings.notes = '';
 
       return {
         trips: Array.isArray(parsed.trips) ? parsed.trips :
@@ -1499,6 +1634,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   function num(v) { const n = Number(v); return isNaN(n) ? 0 : n; }
   function fmtMoney(n) { return 'KSh ' + num(n).toLocaleString('en-KE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
   function fmtNum(n) { return num(n).toLocaleString('en-KE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function fmtMoneyPlain(n) { return num(n).toLocaleString('en-KE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
   function fmtDate(iso) {
     if (!iso) return '';
     const d = new Date(iso);
@@ -1526,7 +1662,19 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   }
   function tripKey(t) { return normKey(t.date, t.regNo, t.driver); }
 
+  function expenseType(e) {
+    if (e.type === 'linked' || e.type === 'independent') return e.type;
+    if (e.tripId && state.trips.some(t => t.id === e.tripId)) return 'linked';
+    const k = normKey(e.date, e.regNo, e.driver);
+    if (state.trips.some(t => tripKey(t) === k)) return 'linked';
+    return 'independent';
+  }
+
+  function getLinkedExpenses() { return state.expenses.filter(e => expenseType(e) === 'linked'); }
+  function getIndependentExpenses() { return state.expenses.filter(e => expenseType(e) === 'independent'); }
+
   function findTripFor(exp) {
+    if (expenseType(exp) === 'independent') return null;
     if (exp.tripId) {
       const t = state.trips.find(x => x.id === exp.tripId);
       if (t) return t;
@@ -1538,6 +1686,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   function expensesForTrip(trip) {
     const key = tripKey(trip);
     return state.expenses.filter(e => {
+      if (expenseType(e) !== 'linked') return false;
       if (e.tripId && e.tripId === trip.id) return true;
       return normKey(e.date, e.regNo, e.driver) === key;
     });
@@ -1623,15 +1772,71 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   $('#menuBtn').addEventListener('click', openSidebar);
   $('#overlay').addEventListener('click', closeSidebar);
 
-  /* ============================================================
-     DASHBOARD
-     ============================================================ */
+  function autoColWidths(aoa, opts) {
+    const options = opts || {};
+    const minW = options.min != null ? options.min : 6;
+    const maxW = options.max != null ? options.max : 55;
+    const pad  = options.padding != null ? options.padding : 2;
+    const skipRows = options.skipRows || [];
+    const numericHeaders = ['KM', 'Amount', 'Rate', 'Total', 'Expenses', 'Net', 'Trip Amount'];
+    const numFloor = options.numericFloor != null ? options.numericFloor : 13;
+
+    const cols = Math.max.apply(null, aoa.map(r => (r || []).length).concat([0]));
+    const widths = new Array(cols).fill(minW);
+
+    let headerRowIdx = -1;
+    for (let r = 0; r < aoa.length; r++) {
+      if (skipRows.indexOf(r) !== -1) continue;
+      if (Array.isArray(aoa[r]) && aoa[r].length) { headerRowIdx = r; break; }
+    }
+    const headerRow = headerRowIdx !== -1 ? aoa[headerRowIdx] : [];
+
+    aoa.forEach((row, rIdx) => {
+      if (skipRows.indexOf(rIdx) !== -1) return;
+      (row || []).forEach((cell, i) => {
+        const text = String(cell == null ? '' : cell);
+        const firstLine = text.split('\n')[0] || '';
+        const len = firstLine.length + pad;
+        if (len > widths[i]) widths[i] = len;
+      });
+    });
+
+    headerRow.forEach((h, i) => {
+      const headerText = String(h == null ? '' : h).toUpperCase();
+      const isNumeric = numericHeaders.some(k => headerText.indexOf(k) !== -1);
+      if (isNumeric && widths[i] < numFloor) widths[i] = numFloor;
+    });
+
+    return widths.map(w => ({ wch: Math.min(Math.max(w, minW), maxW) }));
+  }
+
+  function invoiceTotals(trips) {
+    const subtotal = trips.reduce((s, t) => s + num(t.amount), 0);
+    const vat = subtotal * VAT_RATE;
+    const total = subtotal + vat;
+    return { subtotal, vat, total };
+  }
+
+  // Company name with legacy fallback — always resolves to "BANTOS LIMITED".
+  function companyName() {
+    const raw = (state.settings.company || '').trim();
+    if (!raw) return COMPANY_NAME;
+    const up = raw.toUpperCase();
+    if (LEGACY_COMPANY_NAMES.indexOf(up) !== -1) return COMPANY_NAME;
+    return raw;
+  }
+
   function renderDashboard() {
     const trips = state.trips;
     const totalTrips = trips.length;
     const totalKm = trips.reduce((s, t) => s + num(t.km), 0);
     const totalAmount = trips.reduce((s, t) => s + num(t.amount), 0);
-    const totalExpenses = state.expenses.reduce((s, e) => s + expenseTotal(e), 0);
+
+    const linkedExpenses = getLinkedExpenses();
+    const independentExpenses = getIndependentExpenses();
+    const totalLinked = linkedExpenses.reduce((s, e) => s + expenseTotal(e), 0);
+    const totalIndependent = independentExpenses.reduce((s, e) => s + expenseTotal(e), 0);
+    const totalExpenses = totalLinked + totalIndependent;
     const net = totalAmount - totalExpenses;
 
     const nowKey = monthKey(todayISO());
@@ -1644,9 +1849,11 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       { label: 'Total Trips',       value: totalTrips.toLocaleString(), sub: 'All time', accent: '' },
       { label: 'Total Kilometres',  value: fmtNum(totalKm), sub: 'All time', accent: 'accent-violet' },
       { label: 'Trip Amount',       value: fmtMoney(totalAmount), sub: 'All time', accent: 'accent-green' },
-      { label: 'Total Expenses',    value: fmtMoney(totalExpenses), sub: 'All time', accent: 'accent-red' },
-      { label: 'Net Position',      value: fmtMoney(net), sub: 'Amount − Expenses', accent: 'accent-teal' },
-      { label: monthLabel(nowKey) + ' Trips',    value: monthTrips.length.toLocaleString(), sub: 'This month', accent: 'accent-amber' },
+      { label: 'Linked Trip Expenses', value: fmtMoney(totalLinked), sub: linkedExpenses.length + ' record(s)', accent: 'accent-teal' },
+      { label: 'Independent Vehicle Expenses', value: fmtMoney(totalIndependent), sub: independentExpenses.length + ' record(s)', accent: 'accent-purple' },
+      { label: 'Combined Total Expenses', value: fmtMoney(totalExpenses), sub: 'Linked + Independent', accent: 'accent-red' },
+      { label: 'Net Position',      value: fmtMoney(net), sub: 'Amount − Expenses', accent: 'accent-amber' },
+      { label: monthLabel(nowKey) + ' Trips',    value: monthTrips.length.toLocaleString(), sub: 'This month', accent: '' },
       { label: monthLabel(nowKey) + ' Amount',   value: fmtMoney(monthAmount), sub: 'This month', accent: 'accent-green' },
       { label: monthLabel(nowKey) + ' Expenses', value: fmtMoney(monthExpenses), sub: 'This month', accent: 'accent-red' }
     ];
@@ -1717,9 +1924,6 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     $('#navExpCount').textContent = state.expenses.length;
   }
 
-  /* ============================================================
-     MONTH SELECTS
-     ============================================================ */
   function getMonthKeys() {
     const set = new Set();
     state.trips.forEach(t => { if (t.date) set.add(monthKey(t.date)); });
@@ -1740,9 +1944,6 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     });
   }
 
-  /* ============================================================
-     TRIP FORM — BASIC INFORMATION ONLY
-     ============================================================ */
   const tripForm = $('#tripForm');
   const tripIdEl = $('#tripId');
   const tripDateEl = $('#tripDate');
@@ -1818,11 +2019,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     const id = tripIdEl.value;
     if (id) {
       const t = state.trips.find(x => x.id === id);
-      if (t) {
-        // Preserve any legacy notes field internally (not shown in UI)
-        Object.assign(t, { date, regNo, driver, destination, km, amount });
-      }
-      // Keep linked expenses in sync with the updated trip details
+      if (t) Object.assign(t, { date, regNo, driver, destination, km, amount });
       state.expenses.forEach(exp => {
         if (exp.tripId === id) {
           exp.date = date; exp.regNo = regNo; exp.driver = driver;
@@ -1841,9 +2038,6 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     saveState(); resetTripForm(); populateMonthSelects(); refreshAll();
   });
 
-  /* ============================================================
-     TRIPS TABLE — BASIC INFORMATION ONLY
-     ============================================================ */
   function filterTrips() {
     const q = ($('#tripSearch').value || '').trim().toLowerCase();
     const month = $('#tripMonthFilter').value;
@@ -1943,11 +2137,9 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     $(sel).addEventListener('change', renderTrips);
   });
 
-  /* ============================================================
-     EXPENSES — ALL EXPENSE INFORMATION
-     ============================================================ */
   const expForm = $('#expForm');
   const expIdEl = $('#expId');
+  const expTypeEl = $('#expType');
   const expDateEl = $('#expDate');
   const expRegEl = $('#expReg');
   const expDriverEl = $('#expDriver');
@@ -1956,14 +2148,43 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   const expKmEl = $('#expKm');
   const expNotesEl = $('#expNotes');
   const expTripPicker = $('#expTripPicker');
+  const expTripPickerField = $('#expTripPickerField');
+  const expTypeHint = $('#expTypeHint');
+  const expTypeToggle = $('#expTypeToggle');
   const itemsWrap = $('#expenseItems');
   const expFormTotal = $('#expFormTotal');
+
+  function setExpType(type) {
+    expTypeEl.value = type;
+    $$('#expTypeToggle button').forEach(b => {
+      b.classList.toggle('active', b.dataset.type === type);
+    });
+    if (type === 'linked') {
+      expTripPickerField.classList.remove('hidden-field');
+      expTypeHint.classList.remove('indep');
+      expTypeHint.innerHTML = `
+        <svg viewBox="0 0 24 24" style="width:15px;height:15px;flex-shrink:0"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        <span>Expense will be associated with a trip you select below.</span>`;
+    } else {
+      expTripPickerField.classList.add('hidden-field');
+      expTypeHint.classList.add('indep');
+      expTypeHint.innerHTML = `
+        <svg viewBox="0 0 24 24" style="width:15px;height:15px;flex-shrink:0"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11m-14 0h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-1H8v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2z"/></svg>
+        <span>Independent vehicle expense — no trip required. Useful for servicing, repairs, tyres, insurance, etc.</span>`;
+    }
+  }
+
+  expTypeToggle.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-type]');
+    if (!btn) return;
+    setExpType(btn.dataset.type);
+  });
 
   function addItemRow(desc, amount) {
     const row = document.createElement('div');
     row.className = 'expense-item-row';
     row.innerHTML = `
-      <input type="text" class="item-desc" placeholder="Description (e.g. Fuel)" value="${escapeHtml(desc || '')}" />
+      <input type="text" class="item-desc" placeholder="Description (e.g. Fuel, Repairs, Tyres)" value="${escapeHtml(desc || '')}" />
       <input type="number" class="item-amount" step="0.01" min="0" placeholder="0.00" value="${amount != null ? escapeHtml(String(amount)) : ''}" />
       <button type="button" class="remove-item" aria-label="Remove">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M6 7h12l-1 13H7L6 7zm3-3h6l1 2H8l1-2z"/></svg>
@@ -2005,13 +2226,14 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     $('#expFormTitle').textContent = 'Add Expense Record';
     $('#saveExpBtn').textContent = 'Save Expense Record';
     $('#cancelExpEdit').hidden = true;
+    setExpType('linked');
     updateExpFormTotal();
   }
 
   function populateExpTripPicker() {
     const sel = expTripPicker;
     const prev = sel.value;
-    sel.innerHTML = '<option value="">— Enter manually below —</option>' +
+    sel.innerHTML = '<option value="">— Pick a trip to link —</option>' +
       state.trips.slice().sort((a, b) => (a.date < b.date ? 1 : -1)).map(t =>
         `<option value="${t.id}">${escapeHtml(fmtDate(t.date))} · ${escapeHtml(t.regNo)} · ${escapeHtml(t.driver||'—')} · ${escapeHtml(t.destination)}</option>`
       ).join('');
@@ -2031,6 +2253,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   function startExpenseForTrip(tripId) {
     const t = state.trips.find(x => x.id === tripId); if (!t) return;
     switchView('expenses'); resetExpForm();
+    setExpType('linked');
     expTripPicker.value = t.id;
     expDateEl.value = t.date;
     expRegEl.value = t.regNo;
@@ -2055,6 +2278,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     itemsWrap.innerHTML = '';
     const items = (e.items && e.items.length) ? e.items : [{ desc: '', amount: '' }];
     items.forEach(it => addItemRow(it.desc, it.amount));
+    setExpType(expenseType(e));
     $('#expFormTitle').textContent = 'Edit Expense Record';
     $('#saveExpBtn').textContent = 'Update Expense Record';
     $('#cancelExpEdit').hidden = false;
@@ -2073,31 +2297,45 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
   expForm.addEventListener('submit', e => {
     e.preventDefault();
+    const type = expTypeEl.value || 'linked';
     const date = expDateEl.value;
     const regNo = expRegEl.value.trim().toUpperCase();
     const driver = expDriverEl.value.trim();
-    const destination = expDestEl.value.trim().toUpperCase();
+    const destination = expDestEl.value.trim();
     const fuel = expFuelEl.value.trim();
     const km = num(expKmEl.value);
     const notes = expNotesEl.value.trim();
     const items = collectItems();
-    if (!date || !regNo || !driver) { toast('Please complete all required fields.', 'error'); return; }
+
+    if (!date || !regNo) { toast('Date and Registration No. are required.', 'error'); return; }
     if (!items.length) { toast('Add at least one expense item.', 'error'); return; }
 
-    let tripId = expTripPicker.value || '';
-    if (!tripId) {
-      const matched = state.trips.find(t => tripKey(t) === normKey(date, regNo, driver));
-      if (matched) tripId = matched.id;
+    let tripId = '';
+    if (type === 'linked') {
+      tripId = expTripPicker.value || '';
+      if (!tripId) {
+        const matched = state.trips.find(t => tripKey(t) === normKey(date, regNo, driver));
+        if (matched) tripId = matched.id;
+      }
+      if (!tripId) {
+        toast('Pick a trip to link, or switch to Independent Vehicle Expense.', 'error');
+        return;
+      }
     }
 
     const id = expIdEl.value;
+    const payload = {
+      date, regNo, driver, destination,
+      fuel, km, items, notes,
+      type, tripId
+    };
+
     if (id) {
       const rec = state.expenses.find(x => x.id === id);
-      if (rec) Object.assign(rec, { date, regNo, driver, destination, fuel, km, items, notes, tripId });
+      if (rec) Object.assign(rec, payload);
       toast('Expense updated.', 'success');
     } else {
-      state.expenses.push({ id: uid(), date, regNo, driver, destination, fuel, km, items, notes, tripId,
-        createdAt: new Date().toISOString() });
+      state.expenses.push(Object.assign({ id: uid(), createdAt: new Date().toISOString() }, payload));
       toast('Expense saved.', 'success');
     }
     saveState(); resetExpForm(); populateMonthSelects(); populateExpTripPicker(); refreshAll();
@@ -2108,6 +2346,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     const month = $('#expMonthFilter').value;
     const from = $('#expFrom').value;
     const to = $('#expTo').value;
+    const typeFilter = $('#expTypeFilter').value;
     const sortKey = $('#expSort').value;
     const dir = $('#expDir').value;
 
@@ -2115,6 +2354,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     if (month && month !== 'all') rows = rows.filter(e => monthKey(e.date) === month);
     if (from) rows = rows.filter(e => e.date >= from);
     if (to) rows = rows.filter(e => e.date <= to);
+    if (typeFilter !== 'all') rows = rows.filter(e => expenseType(e) === typeFilter);
     if (q) {
       rows = rows.filter(e => {
         const itemText = (e.items || []).map(i => (i.desc || '')).join(' ').toLowerCase();
@@ -2146,20 +2386,27 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     const tbody = $('#expsBody');
     tbody.innerHTML = rows.length
       ? rows.map((e, i) => {
-          const linked = findTripFor(e);
+          const type = expenseType(e);
+          const linked = type === 'linked' ? findTripFor(e) : null;
           const items = e.items || [];
           const itemHtml = items.length
             ? `<div class="chip-list">${items.map(it =>
                 `<span class="chip amber">${escapeHtml(it.desc||'Item')}: ${escapeHtml(fmtNum(it.amount))}</span>`
               ).join('')}</div>`
             : '<span class="muted small">—</span>';
-          const destination = e.destination || (linked ? linked.destination : '');
+          const typeBadge = type === 'linked'
+            ? `<span class="badge linked">Linked</span>`
+            : `<span class="badge indep">Independent</span>`;
+          const destText = e.destination
+            || (linked ? linked.destination : '')
+            || '<span class="muted small">—</span>';
           return `<tr>
             <td>${i+1}</td>
+            <td>${typeBadge}</td>
             <td>${escapeHtml(fmtDate(e.date))}</td>
             <td class="reg">${escapeHtml(e.regNo)}</td>
             <td class="strong">${escapeHtml(e.driver||'—')}</td>
-            <td>${destination ? escapeHtml(destination) : '<span class="badge">Unlinked</span>'}</td>
+            <td>${typeof destText === 'string' && destText.indexOf('<span') === 0 ? destText : escapeHtml(destText)}</td>
             <td class="num">${escapeHtml(fmtNum(e.km))}</td>
             <td>${escapeHtml(e.fuel||'—')}</td>
             <td>${itemHtml}</td>
@@ -2172,14 +2419,18 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
             </td>
           </tr>`;
         }).join('')
-      : `<tr class="empty-row"><td colspan="10">No expense records match your filters.</td></tr>`;
+      : `<tr class="empty-row"><td colspan="11">No expense records match your filters.</td></tr>`;
 
     const totalExp = rows.reduce((s, e) => s + expenseTotal(e), 0);
     const totalKm = rows.reduce((s, e) => s + num(e.km), 0);
+    const linkedTotal = rows.filter(e => expenseType(e) === 'linked').reduce((s, e) => s + expenseTotal(e), 0);
+    const indepTotal = rows.filter(e => expenseType(e) === 'independent').reduce((s, e) => s + expenseTotal(e), 0);
     $('#expsTotals').innerHTML = `
       <div>Records shown: <strong>${rows.length}</strong></div>
       <div>Total Kilometres: <strong>${escapeHtml(fmtNum(totalKm))}</strong></div>
-      <div>Total Expenses: <strong style="color:var(--red)">${escapeHtml(fmtMoney(totalExp))}</strong></div>`;
+      <div>Linked Expenses: <strong style="color:var(--green)">${escapeHtml(fmtMoney(linkedTotal))}</strong></div>
+      <div>Independent Expenses: <strong style="color:var(--purple)">${escapeHtml(fmtMoney(indepTotal))}</strong></div>
+      <div>Combined Total: <strong style="color:var(--red)">${escapeHtml(fmtMoney(totalExp))}</strong></div>`;
   }
 
   $('#expsBody').addEventListener('click', e => {
@@ -2200,129 +2451,169 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     toast('Expense deleted.', 'success');
   }
 
-  ['#expSearch', '#expMonthFilter', '#expFrom', '#expTo', '#expSort', '#expDir'].forEach(sel => {
+  ['#expSearch', '#expMonthFilter', '#expFrom', '#expTo', '#expTypeFilter', '#expSort', '#expDir'].forEach(sel => {
     $(sel).addEventListener('input', renderExpenses);
     $(sel).addEventListener('change', renderExpenses);
   });
 
-  /* ============================================================
-     ONE-TRIP-ONE-ROW EXPENSE REPORT DATA BUILDER
-     ============================================================ */
-  function buildExpenseReportData(trips) {
-    const tripData = trips.map(t => {
-      const linked = expensesForTrip(t);
-      const allItems = [];
+  function buildExpenseReportData(filters) {
+    const f = filters || {};
+    const month = f.month != null ? f.month : $('#expMonthFilter').value;
+    const from  = f.from  != null ? f.from  : $('#expFrom').value;
+    const to    = f.to    != null ? f.to    : $('#expTo').value;
+
+    function inRange(date) {
+      if (!date) return false;
+      if (month && month !== 'all' && monthKey(date) !== month) return false;
+      if (from && date < from) return false;
+      if (to && date > to) return false;
+      return true;
+    }
+
+    const linkedRows = [];
+    state.trips.forEach(trip => {
+      if (!inRange(trip.date)) return;
+      const linkedExps = state.expenses.filter(e => {
+        if (expenseType(e) !== 'linked') return false;
+        if (e.tripId && e.tripId === trip.id) return true;
+        return normKey(e.date, e.regNo, e.driver) === tripKey(trip);
+      });
+      const inRangeLinked = linkedExps.filter(e => inRange(e.date));
+      if (!inRangeLinked.length) return;
+
+      const items = [];
       let fuel = '';
-      let km = num(t.km);
-      let destination = t.destination || '';
-      linked.forEach(e => {
-        if (e.fuel && !fuel) fuel = e.fuel;
-        if (!km && e.km) km = num(e.km);
-        if (!destination && e.destination) destination = e.destination;
+      inRangeLinked.forEach(e => {
+        if (!fuel && e.fuel) fuel = e.fuel;
         (e.items || []).forEach(it => {
           if (it.desc || num(it.amount)) {
-            allItems.push({ desc: it.desc || 'Expense', amount: num(it.amount) });
+            items.push({ desc: it.desc || 'Expense', amount: num(it.amount) });
           }
         });
       });
-      return { trip: t, items: allItems, fuel, km, destination };
+      linkedRows.push({
+        type: 'linked',
+        date: trip.date,
+        regNo: trip.regNo,
+        driver: trip.driver || '',
+        destination: trip.destination || '',
+        km: num(trip.km) || 0,
+        fuel,
+        items,
+        typeLabel: 'Linked to Trip'
+      });
     });
 
-    const maxItems = tripData.reduce((m, d) => Math.max(m, d.items.length), 0);
+    const indepRows = state.expenses
+      .filter(e => expenseType(e) === 'independent' && inRange(e.date))
+      .map(e => ({
+        type: 'independent',
+        date: e.date,
+        regNo: e.regNo || '',
+        driver: e.driver || '',
+        destination: e.destination || 'Independent Vehicle Expense',
+        km: num(e.km) || 0,
+        fuel: e.fuel || '',
+        items: (e.items || []).map(it => ({ desc: it.desc || 'Expense', amount: num(it.amount) })),
+        typeLabel: 'Independent Vehicle Expense'
+      }));
+
+    const allRows = linkedRows.concat(indepRows).sort((a, b) => {
+      const da = a.date || ''; const db = b.date || '';
+      return da < db ? -1 : da > db ? 1 : 0;
+    });
+
+    const maxItems = allRows.reduce((m, r) => Math.max(m, r.items.length), 0);
     const CAP = 15;
     const itemCols = Math.min(maxItems, CAP);
 
     const columns = [
-      '#', 'Date', 'Reg No.', 'Driver', 'Destination / Route',
+      '#', 'Type', 'Date', 'Reg No.', 'Driver', 'Destination / Description',
       'KM Covered', 'Fuel Consumed'
     ];
     for (let i = 0; i < itemCols; i++) columns.push('Expense ' + (i + 1));
     columns.push('Other Expenses');
     columns.push('Total Expenses');
 
-    const rows = tripData.map((d, idx) => {
+    const rows = allRows.map((r, idx) => {
       const row = [
         idx + 1,
-        d.trip.date,
-        d.trip.regNo,
-        d.trip.driver || '',
-        d.destination,
-        d.km,
-        d.fuel
+        r.typeLabel,
+        r.date,
+        r.regNo,
+        r.driver,
+        r.destination,
+        r.km,
+        r.fuel
       ];
       for (let i = 0; i < itemCols; i++) {
-        const it = d.items[i];
+        const it = r.items[i];
         row.push(it ? `${it.desc}: ${num(it.amount).toFixed(2)}` : '');
       }
-      const otherSum = d.items.slice(itemCols).reduce((s, it) => s + num(it.amount), 0);
+      const otherSum = r.items.slice(itemCols).reduce((s, it) => s + num(it.amount), 0);
       row.push(otherSum > 0 ? otherSum.toFixed(2) : '');
-      const total = d.items.reduce((s, it) => s + num(it.amount), 0);
+      const total = r.items.reduce((s, it) => s + num(it.amount), 0);
       row.push(total.toFixed(2));
       return row;
     });
 
     const totals = {
-      km: tripData.reduce((s, d) => s + num(d.km), 0),
-      expenses: tripData.reduce((s, d) =>
-        s + d.items.reduce((a, it) => a + num(it.amount), 0), 0)
+      km: allRows.reduce((s, r) => s + num(r.km), 0),
+      expenses: allRows.reduce((s, r) =>
+        s + r.items.reduce((a, it) => a + num(it.amount), 0), 0),
+      linkedTotal: linkedRows.reduce((s, r) =>
+        s + r.items.reduce((a, it) => a + num(it.amount), 0), 0),
+      indepTotal: indepRows.reduce((s, r) =>
+        s + r.items.reduce((a, it) => a + num(it.amount), 0), 0)
     };
 
-    return { columns, rows, tripData, totals, itemCols };
+    return { columns, rows, totals, itemCols, allRows };
   }
 
-  function getExpenseReportTrips() {
-    const month = $('#expMonthFilter').value;
-    const from = $('#expFrom').value;
-    const to = $('#expTo').value;
-    let trips = state.trips.slice();
-    if (month && month !== 'all') trips = trips.filter(t => monthKey(t.date) === month);
-    if (from) trips = trips.filter(t => t.date >= from);
-    if (to) trips = trips.filter(t => t.date <= to);
-    return trips.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
-  }
-
-  function exportExpensesXlsx(tripsOverride) {
+  function exportExpensesXlsx(filtersOverride) {
     if (!window.XLSX) { toast('Excel library not loaded.', 'error'); return; }
-    const trips = tripsOverride || getExpenseReportTrips();
-    if (!trips.length) { toast('No trips to export.', 'error'); return; }
+    const { columns, rows, totals } = buildExpenseReportData(filtersOverride);
+    if (!rows.length) { toast('No expense records to export.', 'error'); return; }
 
-    const { columns, rows, totals } = buildExpenseReportData(trips);
-    const company = state.settings.company || 'BANTOS TRANSPORT';
+    const company = companyName();
+
+    const totalsRow = (() => {
+      const arr = new Array(columns.length).fill('');
+      arr[5] = totals.km.toFixed(2);
+      const otherIdx = columns.length - 3;
+      const totalIdx = columns.length - 1;
+      arr[otherIdx] = 'TOTALS →';
+      arr[totalIdx] = totals.expenses.toFixed(2);
+      return arr;
+    })();
 
     const aoa = [
       [company],
-      ['EXPENSES REPORT — One Trip = One Row'],
+      ['EXPENSES REPORT — One Record = One Row'],
       ['Generated: ' + fmtDate(todayISO()) +
-        '   |   Period: ' +
-        (trips[0] ? fmtDate(trips[0].date) + ' to ' + fmtDate(trips[trips.length - 1].date) : '—')],
+        '   |   Linked: ' + totals.linkedTotal.toFixed(2) +
+        '   |   Independent: ' + totals.indepTotal.toFixed(2) +
+        '   |   Combined: ' + totals.expenses.toFixed(2)],
       [],
       columns,
       ...rows,
       [],
-      (() => {
-        const arr = ['', '', '', '', '', totals.km.toFixed(2), '', ...Array(columns.length - 7).fill(''), '', 'TOTAL:'];
-        arr[arr.length - 1] = '';
-        arr[columns.length - 1] = totals.expenses.toFixed(2);
-        arr[columns.length - 3] = 'TOTALS →';
-        return arr;
-      })()
+      totalsRow
     ];
 
     const ws = XLSX.utils.aoa_to_sheet(aoa);
-    ws['!cols'] = [
-      { wch: 5 },  { wch: 12 }, { wch: 14 }, { wch: 20 }, { wch: 26 },
-      { wch: 12 }, { wch: 16 }
-    ];
-    for (let i = 0; i < columns.length - 10; i++) ws['!cols'].push({ wch: 26 });
-    ws['!cols'].push({ wch: 16 });
-    ws['!cols'].push({ wch: 16 });
+    ws['!cols'] = autoColWidths(aoa, {
+      min: 6, max: 55, padding: 2, numericFloor: 14,
+      skipRows: [0, 1, 2, 3]
+    });
     ws['!merges'] = [
       { s:{ r:0, c:0 }, e:{ r:0, c:columns.length-1 } },
       { s:{ r:1, c:0 }, e:{ r:1, c:columns.length-1 } },
       { s:{ r:2, c:0 }, e:{ r:2, c:columns.length-1 } }
     ];
+
     const rng = XLSX.utils.decode_range(ws['!ref']);
-    const kmColIdx = 5;
+    const kmColIdx = 6;
     const otherColIdx = columns.length - 2;
     const totalColIdx = columns.length - 1;
     for (let R = 4; R <= rng.e.r; R++) {
@@ -2334,7 +2625,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
           ws[addr].z = '#,##0.00';
         }
       });
-      const dateAddr = XLSX.utils.encode_cell({ r: R, c: 1 });
+      const dateAddr = XLSX.utils.encode_cell({ r: R, c: 2 });
       if (ws[dateAddr] && typeof ws[dateAddr].v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(ws[dateAddr].v)) {
         ws[dateAddr].t = 'd';
         ws[dateAddr].v = new Date(ws[dateAddr].v);
@@ -2343,27 +2634,23 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     }
 
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Expenses (One Trip = One Row)');
+    XLSX.utils.book_append_sheet(wb, ws, 'Expenses (One Record = One Row)');
     XLSX.writeFile(wb, `Bantos_Expenses_${todayISO()}.xlsx`);
     toast('Expenses Excel downloaded.', 'success');
   }
 
-  function exportExpensesPdf(tripsOverride) {
-    const trips = tripsOverride || getExpenseReportTrips();
-    if (!trips.length) { toast('No trips to export.', 'error'); return; }
+  function exportExpensesPdf(filtersOverride) {
+    const { columns, rows, totals } = buildExpenseReportData(filtersOverride);
+    if (!rows.length) { toast('No expense records to export.', 'error'); return; }
 
-    const { columns, rows, totals } = buildExpenseReportData(trips);
     const { jsPDF } = window.jspdf;
-
-    const orientation = columns.length > 10 ? 'landscape' : 'portrait';
+    const orientation = columns.length > 11 ? 'landscape' : 'portrait';
     const doc = new jsPDF({ orientation, unit: 'mm', format: 'a4' });
     const pageW = doc.internal.pageSize.getWidth();
     const pageH = doc.internal.pageSize.getHeight();
     const margin = 10;
 
-    const company = state.settings.company || 'BANTOS TRANSPORT';
-    const fromDate = trips[0] ? fmtDate(trips[0].date) : '—';
-    const toDate = trips[trips.length - 1] ? fmtDate(trips[trips.length - 1].date) : '—';
+    const company = companyName();
 
     doc.setFillColor(11, 18, 32);
     doc.rect(0, 0, pageW, 24, 'F');
@@ -2373,13 +2660,26 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     doc.text(company, margin, 11);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
-    doc.text('EXPENSES REPORT — One Trip = One Row', margin, 17);
+    doc.text('EXPENSES REPORT — One Record = One Row', margin, 17);
     doc.setFontSize(7.5);
     doc.text('Generated: ' + fmtDate(todayISO()) +
-      '   |   Period: ' + fromDate + ' to ' + toDate,
+      '   |   Linked: ' + fmtNum(totals.linkedTotal) +
+      '   |   Independent: ' + fmtNum(totals.indepTotal) +
+      '   |   Combined: ' + fmtNum(totals.expenses),
       pageW - margin, 11, { align: 'right' });
-    doc.text('Total Trips: ' + trips.length + '   |   Total Expenses: ' +
-      fmtNum(totals.expenses), pageW - margin, 17, { align: 'right' });
+
+    const columnStyles = {};
+    columnStyles[0] = { cellWidth: 8, halign: 'center' };
+    columnStyles[1] = { cellWidth: 24 };
+    columnStyles[2] = { cellWidth: 17 };
+    columnStyles[3] = { cellWidth: 20 };
+    columnStyles[4] = { cellWidth: 22 };
+    columnStyles[5] = { cellWidth: 'auto' };
+    columnStyles[6] = { cellWidth: 14, halign: 'right' };
+    columnStyles[7] = { cellWidth: 16 };
+    for (let i = 8; i < columns.length - 2; i++) columnStyles[i] = { cellWidth: 'auto' };
+    columnStyles[columns.length - 2] = { cellWidth: 15, halign: 'right' };
+    columnStyles[columns.length - 1] = { cellWidth: 18, halign: 'right' };
 
     doc.autoTable({
       startY: 30,
@@ -2387,41 +2687,34 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       body: rows.map(r => r.map(c => c == null ? '' : String(c))),
       theme: 'grid',
       styles: {
-        font: 'helvetica', fontSize: 6.8, cellPadding: 1.5,
+        font: 'helvetica', fontSize: 6.6, cellPadding: 1.4,
         lineColor: [200, 208, 220], lineWidth: 0.15,
         textColor: [30, 40, 60], overflow: 'linebreak'
       },
       headStyles: {
         fillColor: [11, 18, 32], textColor: [255, 255, 255],
-        fontStyle: 'bold', fontSize: 6.8, halign: 'left'
+        fontStyle: 'bold', fontSize: 6.6, halign: 'left'
       },
       alternateRowStyles: { fillColor: [247, 249, 252] },
-      columnStyles: {
-        0: { cellWidth: 8, halign: 'center' },
-        1: { cellWidth: 18 },
-        2: { cellWidth: 22 },
-        3: { cellWidth: 26 },
-        4: { cellWidth: 'auto' },
-        5: { cellWidth: 16, halign: 'right' },
-        6: { cellWidth: 20 }
-      },
+      columnStyles: columnStyles,
       margin: { left: margin, right: margin }
     });
 
     let finalY = doc.lastAutoTable.finalY + 4;
+    const boxW = pageW - margin * 2;
     doc.setFillColor(240, 245, 255);
-    doc.rect(margin, finalY, pageW - margin * 2, 9, 'F');
+    doc.rect(margin, finalY, boxW, 9, 'F');
     doc.setDrawColor(200, 208, 220);
     doc.setLineWidth(0.15);
-    doc.rect(margin, finalY, pageW - margin * 2, 9);
+    doc.rect(margin, finalY, boxW, 9);
     doc.setTextColor(15, 23, 41);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8);
+    doc.setFontSize(7.5);
     doc.text('TOTALS', margin + 3, finalY + 6);
-    doc.text('Kilometres: ' + fmtNum(totals.km),
-      pageW * 0.42, finalY + 6, { align: 'center' });
-    doc.text('Total Expenses: KSh ' + fmtNum(totals.expenses),
-      pageW - margin - 3, finalY + 6, { align: 'right' });
+    doc.text('Kilometres: ' + fmtNum(totals.km), pageW * 0.34, finalY + 6, { align: 'center' });
+    doc.text('Linked: KSh ' + fmtNum(totals.linkedTotal), pageW * 0.62, finalY + 6, { align: 'center' });
+    doc.text('Independent: KSh ' + fmtNum(totals.indepTotal), pageW * 0.82, finalY + 6, { align: 'center' });
+    doc.text('Combined: KSh ' + fmtNum(totals.expenses), pageW - margin - 3, finalY + 6, { align: 'right' });
 
     const pageCount = doc.internal.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
@@ -2429,18 +2722,16 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       doc.setFont('helvetica', 'italic');
       doc.setFontSize(7);
       doc.setTextColor(120, 130, 150);
-      doc.text(`Page ${i} of ${pageCount}`,
-        pageW - margin, pageH - 5, { align: 'right' });
+      doc.text(`Page ${i} of ${pageCount}`, pageW - margin, pageH - 5, { align: 'right' });
     }
 
     doc.save(`Bantos_Expenses_${todayISO()}.pdf`);
     toast('Expenses A4 PDF downloaded.', 'success');
   }
 
-  function exportExpensesCsv() {
-    const trips = getExpenseReportTrips();
-    if (!trips.length) { toast('No trips to export.', 'error'); return; }
-    const { columns, rows, totals } = buildExpenseReportData(trips);
+  function exportExpensesCsv(filtersOverride) {
+    const { columns, rows, totals } = buildExpenseReportData(filtersOverride);
+    if (!rows.length) { toast('No expense records to export.', 'error'); return; }
 
     const lines = [];
     lines.push(columns.map(c => `"${c}"`).join(','));
@@ -2450,8 +2741,10 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
         return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
       }).join(','));
     });
-    const tRow = ['', '', '', '', '', totals.km.toFixed(2),
-      ...Array(columns.length - 7).fill(''), totals.expenses.toFixed(2)];
+    const tRow = new Array(columns.length).fill('');
+    tRow[5] = totals.km.toFixed(2);
+    tRow[columns.length - 3] = 'TOTALS →';
+    tRow[columns.length - 1] = totals.expenses.toFixed(2);
     lines.push(tRow.join(','));
 
     const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
@@ -2465,11 +2758,8 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
   $('#expExportXlsx').addEventListener('click', () => exportExpensesXlsx());
   $('#expExportPdf').addEventListener('click', () => exportExpensesPdf());
-  $('#expExportCsv').addEventListener('click', exportExpensesCsv);
+  $('#expExportCsv').addEventListener('click', () => exportExpensesCsv());
 
-  /* ============================================================
-     INVOICE — A5 PORTRAIT
-     ============================================================ */
   function renderInvoiceView() {
     populateMonthSelects();
     if (!$('#invDate').value) $('#invDate').value = todayISO();
@@ -2547,10 +2837,12 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
   function updateInvoiceSummary() {
     const sel = getSelectedTrips();
-    const total = sel.reduce((s, t) => s + num(t.amount), 0);
+    const { subtotal, vat, total } = invoiceTotals(sel);
     const km = sel.reduce((s, t) => s + num(t.km), 0);
     $('#sumCount').textContent = sel.length;
     $('#sumKm').textContent = fmtNum(km);
+    $('#sumSubtotal').textContent = fmtMoney(subtotal);
+    $('#sumVat').textContent = fmtMoney(vat);
     $('#sumTotal').textContent = fmtMoney(total);
     if (sel.length) {
       $('#invPeriodFrom').value = sel[0].date;
@@ -2564,11 +2856,12 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   function renderInvoicePreview() {
     const s = state.settings;
     const sel = getSelectedTrips();
-    const total = sel.reduce((a, t) => a + num(t.amount), 0);
+    const { subtotal, vat, total } = invoiceTotals(sel);
     const logoHtml = s.logo
       ? `<img class="inv-logo" src="${s.logo}" alt="Logo" />`
-      : `<div class="inv-company">${escapeHtml(s.company || 'COMPANY')}</div>`;
+      : `<div class="inv-company">${escapeHtml(companyName())}</div>`;
 
+    /* Invoice line items show only the destination — no car registration. */
     const rowsHtml = sel.length
       ? sel.map(t => {
           const amt = num(t.amount);
@@ -2576,15 +2869,12 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
           const cts = Math.round((amt - ksh) * 100);
           return `<tr>
             <td>1</td>
-            <td>${escapeHtml(t.destination)}${t.regNo ? '  (' + escapeHtml(t.regNo) + ')' : ''}</td>
+            <td>${escapeHtml(t.destination)}</td>
             <td class="num">${ksh.toLocaleString('en-KE')}</td>
             <td class="num">${String(cts).padStart(2,'0')}</td>
           </tr>`;
         }).join('')
       : `<tr><td colspan="4" style="text-align:center;color:var(--text-3);padding:20px">Select trips to preview.</td></tr>`;
-
-    const tKsh = Math.floor(total);
-    const tCts = Math.round((total - tKsh) * 100);
 
     const bankHtml = s.bank
       ? `<div class="inv-meta" style="margin-top:10px">${escapeHtml(s.bank)}</div>`
@@ -2619,9 +2909,19 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
         <thead><tr><th style="width:36px">Qty</th><th>Description</th><th class="num" style="width:80px">KSH</th><th class="num" style="width:44px">Cts</th></tr></thead>
         <tbody>${rowsHtml}</tbody>
       </table>
-      <div class="inv-total">
-        <span>GRAND TOTAL</span>
-        <span>KSH ${tKsh.toLocaleString('en-KE')} . ${String(tCts).padStart(2,'0')}</span>
+      <div class="inv-lines">
+        <div class="inv-line">
+          <span class="label">Subtotal</span>
+          <span class="value">KSh ${fmtMoneyPlain(subtotal)}</span>
+        </div>
+        <div class="inv-line vat">
+          <span class="label">VAT (16%)</span>
+          <span class="value">KSh ${fmtMoneyPlain(vat)}</span>
+        </div>
+        <div class="inv-line total">
+          <span class="label">GRAND TOTAL</span>
+          <span class="value">KSh ${fmtMoneyPlain(total)}</span>
+        </div>
       </div>
       ${bankHtml}
       ${notesHtml}`;
@@ -2635,6 +2935,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
     const s = state.settings;
     const { jsPDF } = window.jspdf;
+    const { subtotal, vat, total } = invoiceTotals(sel);
 
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a5' });
     const pageW = doc.internal.pageSize.getWidth();
@@ -2661,12 +2962,11 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(s.logo ? 9 : 12);
-    doc.text(s.company || 'COMPANY', headerX, 8.5);
+    doc.text(companyName(), headerX, 8.5);
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.5);
-    const info1 = (s.address || '').substring(0, 60);
-    doc.text(info1, headerX, 12.5);
+    doc.text((s.address || '').substring(0, 60), headerX, 12.5);
     const info2 = [s.phone, s.email, s.pin ? 'PIN: ' + s.pin : '']
       .filter(Boolean).join('  ·  ').substring(0, 70);
     if (info2) doc.text(info2, headerX, 16);
@@ -2714,21 +3014,19 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     doc.setLineWidth(0.3);
     doc.line(margin, y + 12, pageW - margin, y + 12);
 
+    /* Invoice line items — only the destination is shown.
+       Vehicle registration number is intentionally NOT displayed. */
     const rows = sel.map(t => {
       const amt = num(t.amount);
       const ksh = Math.floor(amt);
       const cts = Math.round((amt - ksh) * 100);
       return [
         '1',
-        t.destination + (t.regNo ? '  (' + t.regNo + ')' : ''),
+        t.destination,
         ksh.toLocaleString('en-KE'),
         String(cts).padStart(2, '0')
       ];
     });
-
-    const totalAmt = sel.reduce((a, t) => a + num(t.amount), 0);
-    const totalKsh = Math.floor(totalAmt);
-    const totalCts = Math.round((totalAmt - totalKsh) * 100);
 
     doc.autoTable({
       startY: y + 15,
@@ -2755,20 +3053,43 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     });
 
     let finalY = doc.lastAutoTable.finalY + 3;
-    const totalBoxW = 60;
+    const totalBoxW = 70;
     const totalBoxX = pageW - margin - totalBoxW;
 
+    doc.setFillColor(247, 249, 252);
+    doc.setDrawColor(200, 208, 220);
+    doc.setLineWidth(0.15);
+    doc.rect(totalBoxX, finalY, totalBoxW, 7, 'FD');
+    doc.setTextColor(90, 100, 120);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.text('Subtotal', totalBoxX + 2, finalY + 4.8);
+    doc.setTextColor(15, 23, 41);
+    doc.setFont('helvetica', 'bold');
+    doc.text('KSh ' + fmtMoneyPlain(subtotal), pageW - margin - 2, finalY + 4.8, { align: 'right' });
+    finalY += 7;
+
+    doc.setFillColor(255, 250, 235);
+    doc.setDrawColor(200, 208, 220);
+    doc.rect(totalBoxX, finalY, totalBoxW, 7, 'FD');
+    doc.setTextColor(180, 83, 9);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.text('VAT (16%)', totalBoxX + 2, finalY + 4.8);
+    doc.setFont('helvetica', 'bold');
+    doc.text('KSh ' + fmtMoneyPlain(vat), pageW - margin - 2, finalY + 4.8, { align: 'right' });
+    finalY += 7;
+
     doc.setFillColor(11, 18, 32);
-    doc.rect(totalBoxX, finalY, totalBoxW, 8, 'F');
+    doc.setDrawColor(11, 18, 32);
+    doc.rect(totalBoxX, finalY, totalBoxW, 9, 'FD');
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8);
-    doc.text('GRAND TOTAL', totalBoxX + 2, finalY + 5.4);
-    doc.text(
-      totalKsh.toLocaleString('en-KE') + ' . ' + String(totalCts).padStart(2, '0'),
-      pageW - margin - 2, finalY + 5.4, { align: 'right' });
+    doc.setFontSize(8.5);
+    doc.text('GRAND TOTAL', totalBoxX + 2, finalY + 6);
+    doc.text('KSh ' + fmtMoneyPlain(total), pageW - margin - 2, finalY + 6, { align: 'right' });
 
-    finalY += 12;
+    finalY += 14;
 
     if (s.bank) {
       doc.setTextColor(15, 23, 41);
@@ -2803,7 +3124,8 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       id: uid(), no: invNo, date: invDate,
       periodFrom: fromDate, periodTo: toDate,
       periodLabel: monthLabel(monthKey(fromDate)),
-      count: sel.length, total: totalAmt,
+      count: sel.length,
+      subtotal, vat, total,
       createdAt: new Date().toISOString()
     });
     state.settings.nextNo = (num(state.settings.nextNo) || 1) + 1;
@@ -2814,20 +3136,10 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     renderDashboard();
   }
 
-  /* ============================================================
-     TRIP EXPORTS — BASIC INFO ONLY
-     Date | Reg No. | Driver | Destination | KM | Amount
-     ============================================================ */
   function buildTripReportData(trips) {
     const head = ['#', 'Date', 'Reg No.', 'Driver', 'Destination / Route', 'KM', 'Amount (KSh)'];
     const body = trips.map((t, i) => [
-      i + 1,
-      t.date,
-      t.regNo,
-      t.driver || '',
-      t.destination,
-      num(t.km),
-      num(t.amount)
+      i + 1, t.date, t.regNo, t.driver || '', t.destination, num(t.km), num(t.amount)
     ]);
     const totals = {
       km: trips.reduce((s, t) => s + num(t.km), 0),
@@ -2840,7 +3152,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     if (!window.XLSX) { toast('Excel library not loaded.', 'error'); return; }
     if (!trips.length) { toast('No trips to export.', 'error'); return; }
     const { head, body, totals } = buildTripReportData(trips);
-    const company = state.settings.company || 'BANTOS TRANSPORT';
+    const company = companyName();
 
     const aoa = [
       [company],
@@ -2853,10 +3165,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       ['', '', '', '', 'TOTALS', totals.km, totals.amount]
     ];
     const ws = XLSX.utils.aoa_to_sheet(aoa);
-    ws['!cols'] = [
-      { wch: 5 }, { wch: 12 }, { wch: 14 }, { wch: 20 }, { wch: 28 },
-      { wch: 12 }, { wch: 16 }
-    ];
+    ws['!cols'] = autoColWidths(aoa, { min: 6, max: 55, padding: 2, numericFloor: 14, skipRows: [0,1,2,3] });
     ws['!merges'] = [
       { s:{ r:0, c:0 }, e:{ r:0, c:6 } },
       { s:{ r:1, c:0 }, e:{ r:1, c:6 } },
@@ -2885,13 +3194,11 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     if (!trips.length) { toast('No trips to export.', 'error'); return; }
     const { body, totals } = buildTripReportData(trips);
     const { jsPDF } = window.jspdf;
-
-    // With only 7 columns now, portrait A4 gives a cleaner report.
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
     const pageW = doc.internal.pageSize.getWidth();
     const pageH = doc.internal.pageSize.getHeight();
     const margin = 12;
-    const company = state.settings.company || 'BANTOS TRANSPORT';
+    const company = companyName();
 
     doc.setFillColor(11, 18, 32);
     doc.rect(0, 0, pageW, 22, 'F');
@@ -2909,23 +3216,21 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       body: body.map(r => [r[0], r[1], r[2], r[3], r[4],
         num(r[5]).toFixed(2),
         num(r[6]).toLocaleString('en-KE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })]),
-      foot: [['', '', '', '', 'TOTALS',
-        totals.km.toFixed(2),
+      foot: [['', '', '', '', 'TOTALS', totals.km.toFixed(2),
         totals.amount.toLocaleString('en-KE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })]],
       theme: 'grid',
-      styles: { font: 'helvetica', fontSize: 8, cellPadding: 2,
-        lineColor: [200,208,220], lineWidth: 0.15 },
+      styles: { font: 'helvetica', fontSize: 8, cellPadding: 2, lineColor: [200,208,220], lineWidth: 0.15 },
       headStyles: { fillColor: [11,18,32], textColor: 255, fontStyle: 'bold', fontSize: 8 },
       footStyles: { fillColor: [240,245,255], textColor: [15,23,41], fontStyle: 'bold', fontSize: 8 },
       alternateRowStyles: { fillColor: [247,249,252] },
       columnStyles: {
         0: { cellWidth: 10, halign: 'center' },
-        1: { cellWidth: 24 },
-        2: { cellWidth: 28 },
-        3: { cellWidth: 36 },
+        1: { cellWidth: 22 },
+        2: { cellWidth: 26 },
+        3: { cellWidth: 'auto' },
         4: { cellWidth: 'auto' },
-        5: { cellWidth: 22, halign: 'right' },
-        6: { cellWidth: 32, halign: 'right' }
+        5: { cellWidth: 16, halign: 'right' },
+        6: { cellWidth: 30, halign: 'right' }
       },
       margin: { left: margin, right: margin }
     });
@@ -2936,8 +3241,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       doc.setFont('helvetica', 'italic');
       doc.setFontSize(7);
       doc.setTextColor(120, 130, 150);
-      doc.text(`Page ${i} of ${pageCount}`,
-        pageW - margin, pageH - 5, { align: 'right' });
+      doc.text(`Page ${i} of ${pageCount}`, pageW - margin, pageH - 5, { align: 'right' });
     }
     doc.save(`Bantos_Trips_${todayISO()}.pdf`);
     toast('Trips PDF downloaded.', 'success');
@@ -2967,9 +3271,6 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
   $('#tripExportPdf').addEventListener('click', () => exportTripsPdf(filterTrips()));
   $('#tripExportCsv').addEventListener('click', () => exportTripsCsv(filterTrips()));
 
-  /* ============================================================
-     REPORTS VIEW
-     ============================================================ */
   function getReportTrips() {
     const month = $('#repMonth').value;
     const from = $('#repFrom').value;
@@ -2981,18 +3282,29 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     return rows.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
   }
 
+  function getReportExpenseFilters() {
+    return {
+      month: $('#repMonth').value,
+      from: $('#repFrom').value,
+      to: $('#repTo').value
+    };
+  }
+
   function renderReportsView() {
     populateMonthSelects();
     const trips = getReportTrips();
     const tKm = trips.reduce((s, t) => s + num(t.km), 0);
     const tAmt = trips.reduce((s, t) => s + num(t.amount), 0);
-    const eAmt = trips.reduce((s, t) =>
+    const linkedTotal = trips.reduce((s, t) =>
       s + expensesForTrip(t).reduce((a, e) => a + expenseTotal(e), 0), 0);
+    const indepTotal = state.expenses
+      .filter(e => expenseType(e) === 'independent')
+      .reduce((s, e) => s + expenseTotal(e), 0);
     $('#repStats').innerHTML = `
       <div class="stat-card"><span class="stat-label">Trips</span><span class="stat-value">${trips.length}</span></div>
       <div class="stat-card accent-violet"><span class="stat-label">Kilometres</span><span class="stat-value">${escapeHtml(fmtNum(tKm))}</span></div>
       <div class="stat-card accent-green"><span class="stat-label">Trip Amount</span><span class="stat-value">${escapeHtml(fmtMoney(tAmt))}</span></div>
-      <div class="stat-card accent-red"><span class="stat-label">Expenses</span><span class="stat-value">${escapeHtml(fmtMoney(eAmt))}</span></div>`;
+      <div class="stat-card accent-red"><span class="stat-label">Combined Expenses</span><span class="stat-value">${escapeHtml(fmtMoney(linkedTotal + indepTotal))}</span></div>`;
   }
 
   ['#repMonth', '#repFrom', '#repTo'].forEach(sel =>
@@ -3000,19 +3312,14 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
   $('#repXlsxTrips').addEventListener('click', () => exportTripsXlsx(getReportTrips()));
   $('#repPdfTrips').addEventListener('click', () => exportTripsPdf(getReportTrips()));
-  $('#repXlsxExp').addEventListener('click', () => exportExpensesXlsx(getReportTrips()));
-  $('#repPdfExp').addEventListener('click', () => exportExpensesPdf(getReportTrips()));
+  $('#repXlsxExp').addEventListener('click', () => exportExpensesXlsx(getReportExpenseFilters()));
+  $('#repPdfExp').addEventListener('click', () => exportExpensesPdf(getReportExpenseFilters()));
   $('#repPrint').addEventListener('click', () => window.print());
 
-  /* ============================================================
-     BACKUP & RESTORE
-     ============================================================ */
   $('#backupDownload').addEventListener('click', () => {
     const payload = {
-      app: 'Bantos Transport',
-      version: 2,
-      exportedAt: new Date().toISOString(),
-      data: state
+      app: 'Bantos Limited', version: 3,
+      exportedAt: new Date().toISOString(), data: state
     };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
@@ -3025,8 +3332,8 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
   $('#backupCsv').addEventListener('click', () => exportTripsCsv(state.trips.slice()));
   $('#backupCsvExp').addEventListener('click', () => {
-    if (!state.trips.length) { toast('No trips to export.', 'error'); return; }
-    exportExpensesCsv();
+    if (!state.expenses.length) { toast('No expenses to export.', 'error'); return; }
+    exportExpensesCsv({ month: 'all', from: '', to: '' });
   });
 
   $('#restoreBtn').addEventListener('click', () => {
@@ -3047,6 +3354,10 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
         const base = blankState();
         const settings = Object.assign({}, base.settings, incoming.settings || {});
+        // Auto-upgrade legacy company names on restore too.
+        if (settings.company && LEGACY_COMPANY_NAMES.indexOf(settings.company.trim().toUpperCase()) !== -1) {
+          settings.company = COMPANY_NAME;
+        }
         if (settings.bank && LEGACY_PLACEHOLDERS.bank.includes(settings.bank.trim())) settings.bank = '';
         if (settings.notes && LEGACY_PLACEHOLDERS.notes.includes(settings.notes.trim())) settings.notes = '';
 
@@ -3070,21 +3381,21 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     reader.readAsText(input.files[0]);
   });
 
-  /* ============================================================
-     CLEAR DATA — SELECTIVE CONTROLS
-     ============================================================ */
   $('#clearTripsBtn').addEventListener('click', async () => {
     if (!state.trips.length) { toast('No trip records to clear.', 'info'); return; }
-    const linkedCount = state.expenses.filter(e =>
-      e.tripId && state.trips.some(t => t.id === e.tripId)).length;
+    const linkedCount = getLinkedExpenses().length;
     const extra = linkedCount
-      ? `<br><br>Your <strong>${linkedCount}</strong> expense record${linkedCount === 1 ? '' : 's'} will be kept but shown as unlinked.`
+      ? `<br><br>Your <strong>${linkedCount}</strong> linked expense record${linkedCount === 1 ? '' : 's'} will be kept but shown as independent-style (no trip reference).`
       : '';
     const ok = await confirmDialog('Clear Trip Records',
       `Are you sure you want to clear all <strong>${state.trips.length}</strong> trip record${state.trips.length === 1 ? '' : 's'}?${extra}<br><br>This action cannot be undone.`,
       'Confirm Clear');
     if (!ok) return;
     state.trips = [];
+    state.expenses.forEach(e => {
+      if (e.type === 'linked') { e.type = 'independent'; e.tripId = ''; }
+      else if (!e.type) { e.type = 'independent'; e.tripId = ''; }
+    });
     selectedTripIds.clear();
     saveState(); populateMonthSelects(); refreshAll();
     toast('All trip records cleared.', 'success');
@@ -3092,8 +3403,10 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
   $('#clearExpBtn').addEventListener('click', async () => {
     if (!state.expenses.length) { toast('No expense records to clear.', 'info'); return; }
+    const linkedCount = getLinkedExpenses().length;
+    const indepCount = getIndependentExpenses().length;
     const ok = await confirmDialog('Clear Expenses',
-      `Are you sure you want to clear all <strong>${state.expenses.length}</strong> expense record${state.expenses.length === 1 ? '' : 's'}?<br><br>Trip records will be kept exactly as they are.<br><br>This action cannot be undone.`,
+      `Are you sure you want to clear all <strong>${state.expenses.length}</strong> expense record${state.expenses.length === 1 ? '' : 's'}?<br><br>That includes <strong>${linkedCount}</strong> linked and <strong>${indepCount}</strong> independent record(s).<br><br>Trip records will be kept exactly as they are.<br><br>This action cannot be undone.`,
       'Confirm Clear');
     if (!ok) return;
     state.expenses = [];
@@ -3125,26 +3438,19 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       `${detail}<br><br><strong>This action cannot be undone.</strong> Continue?`,
       'Confirm Clear All');
     if (!ok) return;
-
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     state = blankState();
     selectedTripIds.clear();
     saveState();
     applyTheme(currentTheme);
-    populateMonthSelects();
-    populateExpTripPicker();
-    refreshAll();
-    renderSettings();
-    updateBranding();
+    populateMonthSelects(); populateExpTripPicker(); refreshAll(); renderSettings(); updateBranding();
     toast('All data cleared. Application reset.', 'success');
   });
 
-  /* ============================================================
-     SETTINGS
-     ============================================================ */
   function renderSettings() {
     const s = state.settings;
-    $('#setCompany').value = s.company || '';
+    // Always render the current company name (auto-upgraded if legacy).
+    $('#setCompany').value = s.company || COMPANY_NAME;
     $('#setAddress').value = s.address || '';
     $('#setPhone').value = s.phone || '';
     $('#setEmail').value = s.email || '';
@@ -3172,12 +3478,13 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
   function updateBranding() {
     const s = state.settings;
-    $('#sidebarCompany').textContent = (s.company || 'BANTOS').split(' ')[0].toUpperCase();
+    // Sidebar shows the first word of the current company name.
+    const display = (s.company || COMPANY_NAME).trim();
+    $('#sidebarCompany').textContent = display.split(' ')[0].toUpperCase();
     const logoWrap = $('#sidebarLogo');
     const img = $('#sidebarLogoImg');
     if (s.logo) {
-      img.src = s.logo;
-      img.style.display = 'block';
+      img.src = s.logo; img.style.display = 'block';
       const mark = logoWrap.querySelector('.brand-mark');
       if (mark) mark.style.display = 'none';
     } else {
@@ -3185,7 +3492,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       if (!logoWrap.querySelector('.brand-mark')) {
         const mark = document.createElement('div');
         mark.className = 'brand-mark';
-        mark.textContent = (s.company || 'B').trim().charAt(0).toUpperCase();
+        mark.textContent = (display || 'B').trim().charAt(0).toUpperCase();
         logoWrap.appendChild(mark);
       } else {
         logoWrap.querySelector('.brand-mark').style.display = 'grid';
@@ -3195,9 +3502,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
   $('#setLogo').addEventListener('change', e => {
     const file = e.target.files && e.target.files[0]; if (!file) return;
-    if (file.size > 1.5 * 1024 * 1024) {
-      toast('Logo file is too large (max ~1.5MB).', 'error'); return;
-    }
+    if (file.size > 1.5 * 1024 * 1024) { toast('Logo file is too large (max ~1.5MB).', 'error'); return; }
     const reader = new FileReader();
     reader.onload = ev => {
       state.settings.logo = ev.target.result;
@@ -3221,7 +3526,11 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
 
   $('#settingsForm').addEventListener('submit', e => {
     e.preventDefault();
-    state.settings.company = $('#setCompany').value.trim();
+    let name = $('#setCompany').value.trim();
+    if (!name) name = COMPANY_NAME;
+    // If user typed a legacy variant, normalise to the current brand.
+    if (LEGACY_COMPANY_NAMES.indexOf(name.toUpperCase()) !== -1) name = COMPANY_NAME;
+    state.settings.company = name;
     state.settings.address = $('#setAddress').value.trim();
     state.settings.phone = $('#setPhone').value.trim();
     state.settings.email = $('#setEmail').value.trim();
@@ -3288,8 +3597,7 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     }
     state.routes.push({ name, rate, km });
     saveState();
-    $('#routeForm').reset();
-    renderRoutes();
+    $('#routeForm').reset(); renderRoutes();
     toast('Route added.', 'success');
   });
 
@@ -3301,9 +3609,6 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
       .map(d => `<option value="${escapeHtml(d)}"></option>`).join('');
   }
 
-  /* ============================================================
-     QUICK ADD + REFRESH
-     ============================================================ */
   $('#quickAddTrip').addEventListener('click', () => {
     switchView('trips'); resetTripForm();
     $('#tripFormCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -3347,13 +3652,11 @@ input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); cu
     if (window.matchMedia) {
       const mq = window.matchMedia('(prefers-color-scheme: dark)');
       mq.addEventListener && mq.addEventListener('change', ev => {
-        if (!localStorage.getItem(THEME_KEY)) {
-          applyTheme(ev.matches ? 'dark' : 'light');
-        }
+        if (!localStorage.getItem(THEME_KEY)) applyTheme(ev.matches ? 'dark' : 'light');
       });
     }
 
-    console.log('%cBantos Transport v2.4', 'font-weight:bold;color:#2563eb', '— ready.');
+    console.log('%cBantos Limited v3.2', 'font-weight:bold;color:#2563eb', '— ready.');
   }
 
   init();
